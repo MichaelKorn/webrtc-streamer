@@ -11,7 +11,6 @@ environment:
       MSVC_SETUP_ARG: x64
       GENERATOR: Ninja
       MAKE_PROGRAM: ninja
-      APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
 platform: x64
 
