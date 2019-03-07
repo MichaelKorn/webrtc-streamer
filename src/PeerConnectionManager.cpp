@@ -6,6 +6,7 @@
 ** PeerConnectionManager.cpp
 **
 ** -------------------------------------------------------------------------*/
+#define _WINSOCKAPI_    // stops windows.h including winsock.h
 
 #include <iostream>
 #include <fstream>
