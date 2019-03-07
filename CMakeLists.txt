@@ -77,7 +77,7 @@ if (NOT EXISTS ${WEBRTCROOT}/src/out/${WEBRTCBUILD}/args.gn)
   	SET (SHELLCOMMAND cmd /c )
   endif(WIN32)
 
-  EXECUTE_PROCESS(WORKING_DIRECTORY ${WEBRTCROOT}/src/out/${WEBRTCBUILD} COMMAND ${SHELLCOMMAND} gn gen .)
+  EXECUTE_PROCESS(WORKING_DIRECTORY ${WEBRTCROOT}/src/out/${WEBRTCBUILD} COMMAND ${SHELLCOMMAND} gn gen . --args="is_clang=true")
   SET(NINJA_TARGET webrtc rtc_json jsoncpp builtin_video_decoder_factory builtin_video_encoder_factory peerconnection p2p_server_utils)
   EXECUTE_PROCESS(ERROR_QUIET WORKING_DIRECTORY ${WEBRTCROOT}/src/out/${WEBRTCBUILD} COMMAND ninja ${NINJA_TARGET})
   EXECUTE_PROCESS(ERROR_QUIET WORKING_DIRECTORY ${WEBRTCROOT}/src/out/${WEBRTCBUILD} COMMAND ninja ${NINJA_TARGET})
