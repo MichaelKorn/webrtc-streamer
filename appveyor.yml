@@ -12,7 +12,7 @@ install:
   - cmd: set DEPOT_TOOLS_WIN_TOOLCHAIN=0
   - cmd: set PATH=%APPVEYOR_BUILD_FOLDER%\..\depot_tools;%PATH%
   - sh: export PATH=${APPVEYOR_BUILD_FOLDER}/../depot_tools:${PATH}
-  - cmd: set GENERATOR="Visual Studio 15 2017 Win64"
+  - cmd: set GENERATOR="Ninja"
   - sh: export GENERATOR="Unix Makefiles"
   - cmd: set
   - sh: env
@@ -29,7 +29,7 @@ install:
 
 before_build:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
-  - cmd: cmake -G %GENERATOR% -D WEBRTCBUILD=%CONFIGURATION% .
+  - cmd: cmake -G %GENERATOR% -D WEBRTCBUILD=%CONFIGURATION% -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe .
   - sh: cmake -G "${GENERATOR}" -D WEBRTCBUILD=${CONFIGURATION} .
 
 build_script:
