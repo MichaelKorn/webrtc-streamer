@@ -128,6 +128,7 @@ add_definitions(-DHAVE_LIVE555 -DHAVE_JPEG)
 
 # compiler specific
 if (MSVC)
+	message("MSVC!")
 	# live555
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	target_link_libraries (${PROJECT_NAME} ws2_32)
@@ -144,6 +145,7 @@ if (MSVC)
 	add_definitions(-DUSE_X11)
 	target_link_libraries (${PROJECT_NAME} secur32 dmoguids wmcodecdspuuid strmiids msdmo winmm dxgi d3d11)
 else(MSVC)
+        message("NO MSVC!")
 	# live555
 	add_definitions(-DBSD=1 -DSOCKLEN_T=socklen_t -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1)
 	# webrtc
