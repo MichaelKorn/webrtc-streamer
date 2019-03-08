@@ -1,12 +1,12 @@
 image: 
-- Ubuntu
+#- Ubuntu
 - Visual Studio 2017
 
 platform: x64
 
 configuration:
   - Release
-  - Debug
+#  - Debug
 
 install:
   - cmd: set DEPOT_TOOLS_WIN_TOOLCHAIN=0
@@ -35,6 +35,7 @@ before_build:
 build_script:
   - cmd: msbuild INSTALL.vcxproj /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - sh: make
+  - appveyor PushArtifact C:\projects\webrtc\src\out\Release\obj\api\video_codecs\builtin_video_decoder_factory.lib
 
 after_build:
   - ps: cpack -C "$env:CONFIGURATION"
