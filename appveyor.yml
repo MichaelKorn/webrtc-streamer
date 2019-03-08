@@ -9,7 +9,7 @@ environment:
       CLANG_VERSION: ToT
       MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x64
-      GENERATOR: Ninja
+      GENERATOR: NMake Makefiles
       MAKE_PROGRAM: ninja
 
 platform: x64
@@ -22,7 +22,7 @@ install:
   - cmd: set DEPOT_TOOLS_WIN_TOOLCHAIN=0
   - cmd: set PATH=%APPVEYOR_BUILD_FOLDER%\..\depot_tools;%PATH%
   - sh: export PATH=${APPVEYOR_BUILD_FOLDER}/../depot_tools:${PATH}
-  - cmd: set GENERATOR="Ninja"
+#  - cmd: set GENERATOR="Ninja"
   - sh: export GENERATOR="Unix Makefiles"
   - cmd: set
   - sh: env
