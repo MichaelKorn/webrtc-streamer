@@ -40,7 +40,7 @@ install:
 before_build:
   - if DEFINED MSVC_SETUP_PATH call "%MSVC_SETUP_PATH%" %MSVC_SETUP_ARG%
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
-  - cmd: cmake -G %GENERATOR% -D WEBRTCBUILD=%CONFIGURATION% %CMAKE_OPTIONS% .
+  - cmd: cmake -G %GENERATOR% -D WEBRTCBUILD=%CONFIGURATION% %CMAKE_OPTIONS% -A x64 .
   - sh: cmake -G "${GENERATOR}" -D WEBRTCBUILD=${CONFIGURATION} .
 
 build_script:
