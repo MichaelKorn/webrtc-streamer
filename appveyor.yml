@@ -42,6 +42,7 @@ before_build:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
   - cmd: cmake -G %GENERATOR% -D WEBRTCBUILD=%CONFIGURATION% %CMAKE_OPTIONS% .
   - sh: cmake -G "${GENERATOR}" -D WEBRTCBUILD=${CONFIGURATION} .
+  - appveyor PushArtifact C:\projects\webrtc\src\out\Release\obj\api\video_codecs\builtin_video_decoder_factory.lib
 
 build_script:
 #  - cmd: msbuild INSTALL.vcxproj /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
