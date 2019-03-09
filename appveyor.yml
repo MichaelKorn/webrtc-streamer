@@ -1,7 +1,3 @@
-#image: 
-#- Ubuntu
-#- Visual Studio 2017
-
 environment:
   matrix:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
@@ -9,6 +5,9 @@ environment:
       CLANG_VERSION: ToT
       MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x64
+      GENERATOR: Ninja
+      MAKE_PROGRAM: ninja
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       GENERATOR: Ninja
       MAKE_PROGRAM: ninja
 
@@ -23,7 +22,7 @@ install:
   - cmd: set PATH=%APPVEYOR_BUILD_FOLDER%\..\depot_tools;%PATH%
   - sh: export PATH=${APPVEYOR_BUILD_FOLDER}/../depot_tools:${PATH}
 #  - cmd: set GENERATOR="Ninja"
-  - sh: export GENERATOR="Unix Makefiles"
+#  - sh: export GENERATOR="Unix Makefiles"
   - cmd: set
   - sh: env
   - cd ..
@@ -42,12 +41,11 @@ before_build:
   - ps: cd $env:APPVEYOR_BUILD_FOLDER
   - cmd: cmake -G %GENERATOR% -D WEBRTCBUILD=%CONFIGURATION% %CMAKE_OPTIONS% .
   - sh: cmake -G "${GENERATOR}" -D WEBRTCBUILD=${CONFIGURATION} .
-#  - appveyor PushArtifact C:\projects\webrtc\src\out\Release\obj\api\video_codecs\builtin_video_decoder_factory.lib
 
 build_script:
 #  - cmd: msbuild INSTALL.vcxproj /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - "%MAKE_PROGRAM%"
-  - sh: make
+#  - sh: make
 
 after_build:
   - ps: cpack -C "$env:CONFIGURATION"
