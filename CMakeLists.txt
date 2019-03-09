@@ -97,10 +97,10 @@ SET (WEBRTCEXTRAOBJS ${WEBRTJSONCPPCOBJS} ${WEBRTBBRCOBJS} ${WEBRTP2POBJ} ${WEBR
 
 find_library(WEBRTC_LIBRARY NAMES webrtc PATHS ${WEBRTCOBJS})
 target_link_libraries (${PROJECT_NAME} ${WEBRTC_LIBRARY}) 
-%find_library(WEBRTC_VIDEO_DECODER_LIBRARY NAMES builtin_video_decoder_factory PATHS ${WEBRTCOBJS}/api/video_codecs/)
-%find_library(WEBRTC_VIDEO_ENCODER_LIBRARY NAMES builtin_video_encoder_factory PATHS ${WEBRTCOBJS}/api/video_codecs/)
-%find_library(WEBRTC_PEERCONNECTION_LIBRARY NAMES peerconnection PATHS ${WEBRTCOBJS}/pc)
-%target_link_libraries (${PROJECT_NAME} ${WEBRTC_VIDEO_DECODER_LIBRARY} ${WEBRTC_VIDEO_ENCODER_LIBRARY} ${WEBRTC_PC_LIBRARY} ${WEBRTC_PEERCONNECTION_LIBRARY}) 
+#find_library(WEBRTC_VIDEO_DECODER_LIBRARY NAMES builtin_video_decoder_factory PATHS ${WEBRTCOBJS}/api/video_codecs/)
+#find_library(WEBRTC_VIDEO_ENCODER_LIBRARY NAMES builtin_video_encoder_factory PATHS ${WEBRTCOBJS}/api/video_codecs/)
+#find_library(WEBRTC_PEERCONNECTION_LIBRARY NAMES peerconnection PATHS ${WEBRTCOBJS}/pc)
+#target_link_libraries (${PROJECT_NAME} ${WEBRTC_VIDEO_DECODER_LIBRARY} ${WEBRTC_VIDEO_ENCODER_LIBRARY} ${WEBRTC_PC_LIBRARY} ${WEBRTC_PEERCONNECTION_LIBRARY}) 
 
 add_library (webrtcextra STATIC ${WEBRTCEXTRAOBJS})
 set_target_properties(webrtcextra PROPERTIES LINKER_LANGUAGE CXX)		
