@@ -16,7 +16,7 @@ platform: x64
 
 configuration:
   - Release
-#  - Debug
+  - Debug
 
 install:
   - cmd: set DEPOT_TOOLS_WIN_TOOLCHAIN=0
