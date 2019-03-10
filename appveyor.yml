@@ -1,13 +1,13 @@
 environment:
   matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      GENERATOR: Ninja
+      MAKE_PROGRAM: ninja  
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_OPTIONS: -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe
       CLANG_VERSION: ToT
       MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
       MSVC_SETUP_ARG: x64
-      GENERATOR: Ninja
-      MAKE_PROGRAM: ninja
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       GENERATOR: Ninja
       MAKE_PROGRAM: ninja
 
@@ -44,8 +44,8 @@ before_build:
 
 build_script:
 #  - cmd: msbuild INSTALL.vcxproj /p:Configuration=%CONFIGURATION% /p:Platform=%PLATFORM% /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - "%MAKE_PROGRAM%"
-#  - sh: make
+  - cmd: "%MAKE_PROGRAM%"
+  - sh: "${MAKE_PROGRAM}"
 
 after_build:
   - ps: cpack -C "$env:CONFIGURATION"
