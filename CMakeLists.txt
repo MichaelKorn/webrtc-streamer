@@ -48,11 +48,12 @@ target_include_directories(civetweb PUBLIC civetweb/include)
 # webrtc
 if (NOT EXISTS ${WEBRTCROOT}/src/out/${WEBRTCBUILD}/args.gn)
   set (WEBRTCARGS rtc_include_tests=false\nrtc_enable_protobuf=false\nuse_custom_libcxx=false\nrtc_include_pulse_audio=false\nrtc_build_examples=false\nrtc_build_tools=false\nis_clang=true\ntreat_warnings_as_errors=false\n)
-#  if (MSVC)
-#	  set (WEBRTCARGS rtc_use_h264=false\n${WEBRTCARGS})
-#  else ()
+  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+          message(WARNING "Visual Studio Compiler is not supported by the Chromium project! Disabling h.264.")
+	  set (WEBRTCARGS rtc_use_h264=false\n${WEBRTCARGS})
+  else ()
 	  set (WEBRTCARGS rtc_use_h264=true\nffmpeg_branding="Chrome"\n${WEBRTCARGS})
-#  endif()
+  endif()
   if(WEBRTCBUILD STREQUAL "Release")
     set (WEBRTCARGS is_debug=false\n${WEBRTCARGS})
   else()
@@ -97,21 +98,16 @@ SET (WEBRTCEXTRAOBJS ${WEBRTJSONCPPCOBJS} ${WEBRTBBRCOBJS} ${WEBRTP2POBJ} ${WEBR
 
 find_library(WEBRTC_LIBRARY NAMES webrtc PATHS ${WEBRTCOBJS})
 target_link_libraries (${PROJECT_NAME} ${WEBRTC_LIBRARY}) 
-#find_library(WEBRTC_VIDEO_DECODER_LIBRARY NAMES builtin_video_decoder_factory PATHS ${WEBRTCOBJS}/api/video_codecs/)
-#find_library(WEBRTC_VIDEO_ENCODER_LIBRARY NAMES builtin_video_encoder_factory PATHS ${WEBRTCOBJS}/api/video_codecs/)
-#find_library(WEBRTC_PEERCONNECTION_LIBRARY NAMES peerconnection PATHS ${WEBRTCOBJS}/pc)
-#target_link_libraries (${PROJECT_NAME} ${WEBRTC_VIDEO_DECODER_LIBRARY} ${WEBRTC_VIDEO_ENCODER_LIBRARY} ${WEBRTC_PC_LIBRARY} ${WEBRTC_PEERCONNECTION_LIBRARY}) 
 
 add_library (webrtcextra STATIC ${WEBRTCEXTRAOBJS})
 set_target_properties(webrtcextra PROPERTIES LINKER_LANGUAGE CXX)		
 target_link_libraries (${PROJECT_NAME} webrtcextra) 
 
-
 # live555helper & live555
 if (NOT EXISTS live)
     message("Download live555!")
 # just down:   file (DOWNLOAD http://www.live555.com/liveMedia/public/live555-latest.tar.gz ${CMAKE_SOURCE_DIR}/live555-latest.tar.gz )
-    file (DOWNLOAD https://download.videolan.org/contrib/live555/live.2019.02.27.tar.gz ${CMAKE_SOURCE_DIR}/live555-latest.tar.gz )
+    file (DOWNLOAD http://www.live555.com/live.2019.03.06.tar.gz ${CMAKE_SOURCE_DIR}/live555-latest.tar.gz)
     EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E tar xvf live555-latest.tar.gz  RESULT_VARIABLE unpack_result)
     if(NOT unpack_result STREQUAL "0")
         message(FATAL_ERROR "Fetching and compiling live555 failed!")
@@ -128,7 +124,6 @@ add_definitions(-DHAVE_LIVE555 -DHAVE_JPEG)
 
 # compiler specific
 if (MSVC)
-	message("MSVC!")
 	# live555
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	target_link_libraries (${PROJECT_NAME} ws2_32)
@@ -145,7 +140,6 @@ if (MSVC)
 	add_definitions(-DUSE_X11)
 	target_link_libraries (${PROJECT_NAME} secur32 dmoguids wmcodecdspuuid strmiids msdmo winmm dxgi d3d11)
 else(MSVC)
-        message("NO MSVC!")
 	# live555
 	add_definitions(-DBSD=1 -DSOCKLEN_T=socklen_t -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE=1)
 	# webrtc
